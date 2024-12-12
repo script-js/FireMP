@@ -4,6 +4,7 @@
 tba
 ### createGame
 Used to start a new game
+
 Example: 
 ```
 firemp.createGame(function(gameid) {
