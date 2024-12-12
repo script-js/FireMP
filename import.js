@@ -59,5 +59,19 @@ var firemp = {
     },
     remove: function(event) {
         update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/" + event), {});
+    },
+    playerDataAdd: function(name,type,data) {
+      update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(name) + "/" + type), data); 
+    },
+    playerDataRemove: function(name,type) {
+      update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(name) + "/" + type), {}); 
+    },
+    getPlayerList: function(func) {
+      get(child(ref(getDatabase()), "gameid/" + firemp.gameid)).then(async function(snapshot) {
+        if (snapshot.exists()) {
+          var data = snapshot.val()
+          func(data.players)
+        }
+      })
     }
 };
