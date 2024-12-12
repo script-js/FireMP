@@ -24,6 +24,7 @@ var firemp = {
             var data = snapshot.val();
             var players = data.players;
             players.push(name);
+            firemp.playerName = name
             update(ref(getDatabase(), 'gameid/' + firemp.gameid), {
                 "players": players
               });
@@ -31,12 +32,12 @@ var firemp = {
           }
         })
     },
-    leaveGame: function(name) {
+    leaveGame: function() {
         get(child(ref(getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {
             if (snapshot.exists()) {
               var data = snapshot.val();
               var players = data.players;
-              delete players[name];
+              delete players[firemp.playerName];
               update(ref(getDatabase(), 'gameid/' + firemp.gameid), {
                   "players": players
                 });
@@ -60,11 +61,11 @@ var firemp = {
     remove: function(event) {
         update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/" + event), {});
     },
-    playerDataAdd: function(name,type,data) {
-      update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(name) + "/" + type), data); 
+    playerDataAdd: function(type,data) {
+      update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), data); 
     },
-    playerDataRemove: function(name,type) {
-      update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(name) + "/" + type), {}); 
+    playerDataRemove: function(type) {
+      update(ref(getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), {}); 
     },
     getPlayerList: function(func) {
       get(child(ref(getDatabase()), "gameid/" + firemp.gameid)).then(async function(snapshot) {
@@ -73,5 +74,17 @@ var firemp = {
           func(data.players)
         }
       })
-    }
+    },
+    removePlayer: function(name) {
+      get(child(ref(getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {
+          if (snapshot.exists()) {
+            var data = snapshot.val();
+            var players = data.players;
+            delete players[name];
+            update(ref(getDatabase(), 'gameid/' + firemp.gameid), {
+                "players": players
+              });
+          }
+        })
+  },
 };
