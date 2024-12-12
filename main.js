@@ -1,4 +1,5 @@
 var firemp = {
+    listeners: {},
     createGame: function(oncomplete) {
         firemp.gameid = Math.ceil(Math.random() * (20000000 - 10000000) + 10000000);
         get(child(ref(getDatabase()), "gameid/" + firemp.gameid)).then(async function(snapshot) {
@@ -45,12 +46,19 @@ var firemp = {
           })
     },
     listen: function(event,y,n) {
+        firemp.listeners[event] = false
         return setInterval(function() {
         get(child(ref(getDatabase()), "gameid/" + firemp.gameid + "/" + event)).then((snapshot) => {
             if (snapshot.exists()) {
-              y(snapshot.val())
+              if (firemp.listeners[event] == false) {
+                y(snapshot.val())
+                firemp.listeners[event] = true
+              }
             } else {
-              if(n) {n()}
+              if (firemp.listeners[event] == true) {
+                if(n) {n()}
+                firemp.listeners[event] == false
+              }
             }
           })
         },500)
