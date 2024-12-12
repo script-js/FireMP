@@ -4,7 +4,8 @@
 tba
 ### createGame
 Used to start a new game
-Example: ```
+Example: 
+```
 firemp.createGame(function(gameid) {
   alert("Game ID: " + gameid)
 })
