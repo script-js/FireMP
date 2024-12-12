@@ -1,4 +1,4 @@
-var firemp = {
+export const firemp = {
     listeners: {},
     createGame: function(oncomplete) {
         firemp.gameid = Math.ceil(Math.random() * (20000000 - 10000000) + 10000000);
