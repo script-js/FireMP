@@ -14,8 +14,7 @@ export const firemp = {
         firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(async function(snapshot) {
             if (snapshot.exists()) {firemp.createGame(oncomplete)} else {
             await firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
-              "started": false,
-              "players": []
+              "started": false
             });
             firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then((snapshot) => {
                 if (snapshot.exists()) {
@@ -34,7 +33,11 @@ export const firemp = {
         firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {
           if (snapshot.exists()) {
             var data = snapshot.val();
-            var players = data.players;
+            if (data.players) {
+              var players = data.players;
+            } else {
+                var players = []
+            }
             players.push(name);
             firemp.playerName = name
             firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
@@ -87,10 +90,10 @@ export const firemp = {
       firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), {}); 
     },
     getPlayerList: function(func) {
-      firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(async function(snapshot) {
+      firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid + "/players")).then(async function(snapshot) {
         if (snapshot.exists()) {
           var data = snapshot.val()
-          func(data.players)
+          func(data)
         }
       })
     },
