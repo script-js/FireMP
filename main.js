@@ -88,7 +88,7 @@ export const firemp = {
         */
     },
     send: function(event,value) {
-        firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/" + event), value);
+        firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/" + event), value);
     },
     remove: function(event) {
         firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/" + event), {});

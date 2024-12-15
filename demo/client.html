@@ -7,8 +7,8 @@
 <button id="remove">Delete Value</button>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, update, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-    import { firemp } from "https://script-js.github.io/FireMP/main.js";
+    import { getDatabase, ref, update, get, child, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { firemp } from "../main.js";
     const firebaseConfig = {
   apiKey: "AIzaSyAlOQFBpmQHJegUUlqBo9-JfjOsDh9YgkI",
   authDomain: "firemp-afb31.firebaseapp.com",
@@ -20,6 +20,7 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig); 
     firemp.registerFunctions(getDatabase, ref, update, get, child, onValue) 
+    firemp.firebase.set = set
     firemp.joinGame(prompt("Game ID"),prompt("Player Name"),function() {alert("Game Over")})
     leave.onclick = firemp.leaveGame;
     pdata.onclick = function() {firemp.playerDataAdd(prompt("Value Name"),prompt("Value Data"))}
