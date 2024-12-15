@@ -43,9 +43,7 @@ Listens for changes in a specified value
 
 Example:
 ```
-var listener = firemp.listen(<Value Name>,function(data) {alert("Value Data: " + data)},function() {alert("Value Non-existent")})
-// To stop listening
-clearInterval(listener)
+firemp.listen(<Value Name>,function(data) {alert("Value Data: " + data)},function() {alert("Value Non-existent")})
 ```
 
 ### send
@@ -82,6 +80,7 @@ firemp.playerDataRemove(<Value Name>)
 
 ### getPlayerList
 Get a list of players in the game
+Fires every time the player list changes
 
 Example:
 ```

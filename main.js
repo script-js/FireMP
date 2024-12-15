@@ -1,12 +1,13 @@
 export const firemp = {
     listeners: {},
-    registerFunctions: function(getDatabase, ref, update, get, child) {
+    registerFunctions: function(getDatabase, ref, update, get, child, onValue) {
         firemp.firebase = {
           "getDatabase": getDatabase,
           "ref": ref,
           "update": update,
           "get": get,
-          "child": child
+          "child": child,
+          "onValue": onValue
         }  
     },
     createGame: function(oncomplete) {
@@ -60,6 +61,14 @@ export const firemp = {
           })
     },
     listen: function(event,y,n) {
+      firemp.firebase.onValue(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid + "/" + event), (snapshot) => {
+        if (snapshot.exists()) {
+          y(snapshot.val())
+        } else {
+          if(n) {n()}
+        }
+      })
+        /*
         firemp.listeners[event] = false
         return setInterval(function() {
         firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid + "/" + event)).then((snapshot) => {
@@ -76,6 +85,7 @@ export const firemp = {
             }
           })
         },500)
+        */
     },
     send: function(event,value) {
         firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/" + event), value);
@@ -90,10 +100,12 @@ export const firemp = {
       firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), {}); 
     },
     getPlayerList: function(func) {
-      firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid + "/players")).then(async function(snapshot) {
+      firemp.firebase.onValue(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid + "/players")).then(async function(snapshot) {
         if (snapshot.exists()) {
           var data = snapshot.val()
           func(data)
+        } else {
+          console.log("No players")
         }
       })
     },
