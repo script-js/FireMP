@@ -28,7 +28,7 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig); 
     firemp.registerFunctions(getDatabase, ref, set, get, child, onValue)
-    firemp.joinGame(prompt("Game ID"),prompt("Player Name"),function() {alert("Game Over")})
+    firemp.joinGame(prompt("Game ID"),prompt("Player Name"),function() {alert("Game Started")},function() {alert("Game Over")})
     leave.onclick = firemp.leaveGame;
     pdata.onclick = function() {firemp.playerDataAdd(prompt("Value Name"),prompt("Value Data"))}
     send.onclick = function() {firemp.send(prompt("Value Name"),prompt("Value Data"))}

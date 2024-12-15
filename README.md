@@ -27,7 +27,15 @@ Example:
 ```
 var playerName = prompt("Player Name")
 var gameId = prompt("Game ID")
-firemp.joinGame(gameId,playerName,function() {alert("Game Over")})
+firemp.joinGame(gameId,playerName,function() {alert("Game Started")},function() {alert("Game Over")})
+```
+
+### startGame
+Starts the game
+
+Example:
+```
+firemp.startGame()
 ```
 
 ### leaveGame

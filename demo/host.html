@@ -10,9 +10,8 @@
   </head>
     <body>
         <h1 id="pin">Loading...</h1>
-        <button id="listen">Listen</button>
-        <br>
-        <button id="nolisten">Stop Listener</button>
+        <button id="start">Start Game</button>
+        <button id="listen">Listen for Value</button>
         <div id="players"></div>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -32,8 +31,7 @@
     firemp.createGame(function(gameid) {
       pin.innerText = "ID: " + gameid;
     })
-    var listener;
-    nolisten.onclick = function() {clearInterval(listener)};
+    start.onclick = firemp.startGame
     listen.onclick = function() {listener = firemp.listen(prompt("Value Name"),function(data) {alert(data)},function() {alert("Value Removed")})}
         firemp.getPlayerList(function(players) {
            players.forEach(function(k,i,a) {

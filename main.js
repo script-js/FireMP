@@ -16,20 +16,17 @@ export const firemp = {
             if (snapshot.exists()) {firemp.createGame(oncomplete)} else {
             await firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
               "started": false
-            });
-            firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then((snapshot) => {
-                if (snapshot.exists()) {
-                  oncomplete(firemp.gameid)
-                } else {
-                    alert("Game Creation Error")
-                }
-            })
-            }})
+            }).then(function() {oncomplete(firemp.gameid)}).catch((err) => alert("Game Creation Error\n" + err))
+            }
+          })
     },
     endGame: function() {
         firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {});
     },
-    joinGame: function(gameid,name,onend) {
+    startGame: function() {
+      firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/started"),true);
+    },
+    joinGame: function(gameid,name,onstart,onend) {
         firemp.gameid = gameid;
         firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {
           if (snapshot.exists()) {
@@ -42,7 +39,7 @@ export const firemp = {
             players.push(name);
             firemp.playerName = name
             firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/players"),players);
-              setInterval(function() {firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {if (!snapshot.exists()) {onend()}})},2000)
+              setInterval(function() {firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {if (!snapshot.exists()) {onend()} else if (snapshot.val().started == true) {onstart()}})},2000)
           }
         })
     },
