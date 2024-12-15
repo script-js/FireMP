@@ -1,10 +1,10 @@
 export const firemp = {
     listeners: {},
-    registerFunctions: function(getDatabase, ref, update, get, child, onValue) {
+    registerFunctions: function(getDatabase, ref, set, get, child, onValue) {
         firemp.firebase = {
           "getDatabase": getDatabase,
           "ref": ref,
-          "update": update,
+          "set": set,
           "get": get,
           "child": child,
           "onValue": onValue
@@ -14,7 +14,7 @@ export const firemp = {
         firemp.gameid = Math.ceil(Math.random() * (20000000 - 10000000) + 10000000);
         firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(async function(snapshot) {
             if (snapshot.exists()) {firemp.createGame(oncomplete)} else {
-            await firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
+            await firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
               "started": false
             });
             firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then((snapshot) => {
@@ -27,7 +27,7 @@ export const firemp = {
             }})
     },
     endGame: function() {
-        firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {});
+        firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {});
     },
     joinGame: function(gameid,name,onend) {
         firemp.gameid = gameid;
@@ -41,9 +41,7 @@ export const firemp = {
             }
             players.push(name);
             firemp.playerName = name
-            firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
-                "players": players
-              });
+            firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/players"),players);
               setInterval(function() {firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {if (!snapshot.exists()) {onend()}})},2000)
           }
         })
@@ -54,9 +52,7 @@ export const firemp = {
               var data = snapshot.val();
               var players = data.players;
               delete players[firemp.playerName];
-              firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
-                  "players": players
-                });
+              firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/players"),players);
             }
           })
     },
@@ -91,13 +87,13 @@ export const firemp = {
         firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/" + event), value);
     },
     remove: function(event) {
-        firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/" + event), {});
+        firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/" + event), {});
     },
     playerDataAdd: function(type,data) {
-      firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), data); 
+      firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), data); 
     },
     playerDataRemove: function(type) {
-      firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), {}); 
+      firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/playerData/" + btoa(firemp.playerName) + "/" + type), {}); 
     },
     getPlayerList: function(func) {
       firemp.firebase.onValue(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid + "/players"),function(snapshot) {
@@ -115,9 +111,7 @@ export const firemp = {
             var data = snapshot.val();
             var players = data.players;
             delete players[name];
-            firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
-                "players": players
-              });
+            firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/players"),players);
           }
         })
   },
