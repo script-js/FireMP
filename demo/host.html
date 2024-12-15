@@ -1,5 +1,13 @@
 <!DOCTYPE HTML>
 <html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+      * {font-family: "Roboto", serif}
+    </style>
+  </head>
     <body>
         <h1 id="pin">Loading...</h1>
         <button id="listen">Listen</button>
@@ -27,9 +35,9 @@
     var listener;
     nolisten.onclick = function() {clearInterval(listener)};
     listen.onclick = function() {listener = firemp.listen(prompt("Value Name"),function(data) {alert(data)},function() {alert("Value Removed")})}
-    setInterval(function() {
         firemp.getPlayerList(function(players) {
-           players.forEach(function(k) {
+           players.forEach(function(k,i,a) {
+               var container = document.createElement("div") 
                var elem = document.createElement("div")
                elem.onclick = function() {firemp.removePlayer(k)}
                elem.style = "text-align:center"
@@ -39,10 +47,12 @@
                  Click to remove
                  <br>
                `;
-               document.getElementById("players").appendChild(elem)
+               container.appendChild(elem)
+               if (i == a.length - 1) {
+                document.getElementById("players").innerHTML = container.innerHTML
+               }
            })
         })
-    },1000)
     window.onbeforeunload = firemp.endGame
 </script>
 </body>
