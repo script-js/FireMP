@@ -14,6 +14,7 @@ export const firemp = {
         firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(async function(snapshot) {
             if (snapshot.exists()) {firemp.createGame(oncomplete)} else {
             await firemp.firebase.update(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid), {
+              "started": false,
               "players": []
             });
             firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then((snapshot) => {
@@ -105,4 +106,11 @@ export const firemp = {
           }
         })
   },
+  onstarted: function(func) {
+      firemp.listen("started",function(data) {
+          if (data == true) {
+              func()
+          }
+      })
+  }
 };
