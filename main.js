@@ -1,4 +1,4 @@
-var firemp = {
+export const firemp = {
     listeners: {},
     registerFunctions: function(getDatabase, ref, update, get, child) {
         firemp.firebase = {
