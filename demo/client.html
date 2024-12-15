@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+    <body>
+        <button id="leave">Leave Game</button>
+<button id="pdata">Set User Level</button>
+<button id="send">Create value</button>
+<button id="remove">Delete Value</button>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, update, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { firemp } from "https://script-js.github.io/FireMP/main.js";
+    const firebaseConfig = {
+  apiKey: "AIzaSyAlOQFBpmQHJegUUlqBo9-JfjOsDh9YgkI",
+  authDomain: "firemp-afb31.firebaseapp.com",
+  projectId: "firemp-afb31",
+  storageBucket: "firemp-afb31.firebasestorage.app",
+  messagingSenderId: "341987631110",
+  appId: "1:341987631110:web:aaaa69a9638d4d1b11a387"
+};
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig); 
+    firemp.registerFunctions(getDatabase, ref, update, get, child) 
+    firemp.joinGame(prompt("Game ID"),prompt("Player Name"),function() {alert("Game Over")})
+    leave.onclick = firemp.leaveGame;
+    pdata.onclick = function() {firemp.playerDataAdd(prompt("Value Name"),prompt("Value Data"))}
+    send.onclick = function() {firemp.send(prompt("Value Name"),prompt("Value Data"))}
+    remove.onclick = function() {firemp.remove(prompt("Value Name"))}
+</script>
+</body>

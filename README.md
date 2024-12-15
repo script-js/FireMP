@@ -26,7 +26,8 @@ Allows players to join the game
 Example:
 ```
 var playerName = prompt("Player Name")
-firemp.joinGame(playerName,function() {alert("Game Over")})
+var gameId = prompt("Game ID")
+firemp.joinGame(gameId,playerName,function() {alert("Game Over")})
 ```
 
 ### leaveGame

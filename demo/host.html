@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+    <body>
+        <h1 id="pin">Loading...</h1>
+        <button id="listen">Listen</button>
+        <br>
+        <button id="nolisten">Stop Listener</button>
+        <div id="players"></div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, update, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { firemp } from "https://script-js.github.io/FireMP/main.js";
+    const firebaseConfig = {
+  apiKey: "AIzaSyAlOQFBpmQHJegUUlqBo9-JfjOsDh9YgkI",
+  authDomain: "firemp-afb31.firebaseapp.com",
+  projectId: "firemp-afb31",
+  storageBucket: "firemp-afb31.firebasestorage.app",
+  messagingSenderId: "341987631110",
+  appId: "1:341987631110:web:aaaa69a9638d4d1b11a387"
+};
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);  
+    firemp.registerFunctions(getDatabase, ref, update, get, child)
+    firemp.createGame(function(gameid) {
+      pin.innerText = "ID: " + gameid;
+    })
+    var listener;
+    nolisten.onclick = function() {clearInterval(listener)};
+    listen.onclick = function() {listener = firemp.listen(prompt("Value Name"),function(data) {alert(data)},function() {alert("Value Removed")})}
+    setInterval(function() {
+        firemp.getPlayerList(function(players) {
+           players.forEach(function(k) {
+               var elem = document.createElement("div")
+               elem.onclick = function() {firemp.removePlayer(k)}
+               elem.style = "text-align:center"
+               elem.innerHTML = `
+                 <h3>${k}</h3>
+                 <br>
+                 Click to remove
+                 <br>
+               `;
+               players.appendChild(elem)
+           })
+        })
+    },1000)
+</script>
+</body>
