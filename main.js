@@ -39,7 +39,7 @@ export const firemp = {
             players.push(name);
             firemp.playerName = name
             firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/players"),players);
-              setInterval(function() {firemp.firebase.get(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid)).then(function(snapshot) {if (!snapshot.exists()) {onend()} else if (snapshot.val().started == true) {onstart()}})},2000)
+            firemp.firebase.onValue(firemp.firebase.child(firemp.firebase.ref(firemp.firebase.getDatabase()), "gameid/" + firemp.gameid),function(snapshot) {if (!snapshot.exists()) {onend()} else if (snapshot.val().started == true) {onstart()}})
           }
         })
     },
