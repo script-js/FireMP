@@ -62,14 +62,6 @@ var gameId = prompt("Game ID")
 firemp.joinGame(gameId,playerName,function() {alert("Game Started")},function() {alert("Game Over")})
 ```
 
-### startGame
-Starts the game
-
-Example:
-```
-firemp.startGame()
-```
-
 ### leaveGame
 Allows a player to leave the game
 
