@@ -44,6 +44,14 @@ Example:
 firemp.endGame()
 ```
 
+### startGame
+Used to start the game
+
+Example:
+```
+firemp.startGame()
+```
+
 ### joinGame
 Allows players to join the game
 
