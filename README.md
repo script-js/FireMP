@@ -1,5 +1,7 @@
 # FireMP
 ## A JavaScript library for creating multiplayer games using a Firebase Realtime Database
+### Demo
+(Client)[https://script-js.github.io/FireMP/demo/client] | (Host)[https://script-js.github.io/FireMP/demo/host]
 ### Getting Started
 
 **1. Create your database**
