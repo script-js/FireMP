@@ -111,12 +111,5 @@ export const firemp = {
             firemp.firebase.set(firemp.firebase.ref(firemp.firebase.getDatabase(), 'gameid/' + firemp.gameid + "/players"),players);
           }
         })
-  },
-  onstarted: function(func) {
-      firemp.listen("started",function(data) {
-          if (data == true) {
-              func()
-          }
-      })
   }
 };

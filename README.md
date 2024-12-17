@@ -1,7 +1,29 @@
 # FireMP
-## A library for creating multiplayer games using Firebase Realtime Database
+## A JavaScript library for creating multiplayer games using a Firebase Realtime Database
 ### Getting Started
-tba
+
+**1. Create your database**
+
+1. Create a Firebase Project
+Go to console.firebase.google.com and click Create a project.
+2. Add an app
+Click the small </> icon on the home page and set up your app. Make sure you save the firebase config variable it gives you.
+3. Create a Realtime Database
+Under the build tab in the sidebar, click Realtime Database. Click create database and go through the setup.
+4. Add this code to your game (make sure to replace the firebaseConfig variable with the one from step 1):
+```
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { firemp } from "https://script-js.github.io/FireMP/main.js";
+
+        const firebaseConfig = <Your Firebase Config Variable>
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig); 
+    firemp.registerFunctions(getDatabase, ref, set, get, child, onValue)
+</script>
+```
+
 ### createGame
 Used to start a new game
 
